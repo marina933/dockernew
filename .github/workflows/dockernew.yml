@@ -26,3 +26,7 @@ jobs:
         run: |
           docker buildx create --use
           docker buildx build --platform linux/amd64,linux/arm64 -t your-image-name:your-tag . --push
+
+     - name: Push Docker Image to Registry
+        run: docker push your-image-name:your-tag
+
