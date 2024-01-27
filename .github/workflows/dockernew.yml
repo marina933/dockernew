@@ -1,0 +1,23 @@
+name: Docker Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Build Docker Image
+        run: docker build -t my-container .
+
+      - name: Push Docker Image to Registry
+        run: |
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          docker tag my-container ${{ secrets.DOCKER_USERNAME }}/my-container
+          docker push ${{ secrets.DOCKER_USERNAME }}/my-container
